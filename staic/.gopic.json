@@ -1,0 +1,15 @@
+{
+  "qiniu": {
+    "active": true,
+    "accessKey": "yourAccessKey",
+    "secretKey": "yourSecretKey",
+    "bucket": "yourBucket",
+    "responseURL": "https://pic.longtao.fun/pics/"
+  },
+  "github": {
+    "active": false,
+    "responseURL": "https://gcore.jsdelivr.net/gh/yourUserName/pics@main/",
+    "requestURL": "https://api.github.com/repos/yourUserName/pics/contents/",
+    "token": "yourGithubtoken"
+  }
+}
