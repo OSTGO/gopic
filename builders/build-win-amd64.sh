@@ -6,7 +6,7 @@ GOARCH_ORI=`go env GOARCH`
 
 cd ../ || exit
 go env -w CGO_ENABLED=0
-go env -w GOOS=win
+go env -w GOOS=windows
 go env -w GOARCH=amd64
 go build -ldflags '-w -s' -gcflags '-l' -a -o pkg/gopic.exe
 chmod 777 pkg/gopic.exe
