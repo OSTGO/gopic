@@ -11,5 +11,14 @@
     "responseURL": "https://gcore.jsdelivr.net/gh/yourUserName/pics@main/",
     "requestURL": "https://api.github.com/repos/yourUserName/pics/contents/",
     "token": "yourGithubtoken"
+  },
+  "samba": {
+    "active": true,
+    "responseURL": "http://192.168.200.100/mirror/",
+    "user": "smb",
+    "password": "password",
+    "share": "share",
+    "dir": "dir/test",
+    "address": "192.168.200.100:445"
   }
 }
