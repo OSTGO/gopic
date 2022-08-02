@@ -17,7 +17,7 @@ var storageList []string
 
 // uploadCmd represents the upload command
 var uploadCmd = &cobra.Command{
-	Use:   "run",
+	Use:   "upload",
 	Short: "upload pic list",
 	Long:  `upload pic list`,
 	Run: func(cmd *cobra.Command, args []string) {
