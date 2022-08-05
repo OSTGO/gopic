@@ -10,7 +10,7 @@ import (
 )
 
 type SambaStorage struct {
-	B *utils.BaseStorage
+	*utils.MetaStorage
 }
 
 const (
@@ -30,7 +30,7 @@ func (g *SambaStorage) Upload(im *utils.Image) (string, error) {
 }
 
 func NewSambaStorage() *SambaStorage {
-	return &SambaStorage{utils.NewBaseStorage()}
+	return &SambaStorage{utils.NewMetaStorage()}
 }
 
 func uploadPictureToSamba(address, userName, shareName, password, picDir, suffix string, data []byte) error {

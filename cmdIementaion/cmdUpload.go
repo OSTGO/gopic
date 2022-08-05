@@ -40,13 +40,13 @@ var errLock sync.Mutex
 func NewUpload(stroages []string, paths []string) (map[string][]string, map[string][]error) {
 	errMapList := make(map[string][]error, 0)
 	outMapList := make(map[string][]string, len(stroages))
-	bb := utils.NewBaseStorage()
-	bb.Generate(paths)
+	bb := utils.NewBaseStorage(paths)
+	defer bb.Destory()
 	var wg sync.WaitGroup
 	for _, stroage := range stroages {
 		wg.Add(1)
-		go func(_stroage string) {
-			out, err := stroageUpload(_stroage)
+		go func(_stroage string, paths []string) {
+			out, err := stroageUpload(_stroage, paths)
 			if len(err) != 0 {
 				errLock.Lock()
 				errMapList[_stroage] = err
@@ -57,16 +57,17 @@ func NewUpload(stroages []string, paths []string) (map[string][]string, map[stri
 				errLock.Unlock()
 			}
 			wg.Done()
-		}(stroage)
+		}(stroage, paths)
 	}
 	wg.Wait()
 	return outMapList, errMapList
 }
 
 // need performance optimization
-func stroageUpload(stroage string) ([]string, []error) {
+func stroageUpload(stroage string, paths []string) ([]string, []error) {
 	st := utils.StroageMap[stroage]
-	base := utils.NewBaseStorage()
+	base := utils.NewBaseStorage(paths)
+	st.SetPicList(paths)
 	var wg sync.WaitGroup
 	flag := 0
 	//flag := make([]chan bool, len(base.ImageList), len(base.ImageList))

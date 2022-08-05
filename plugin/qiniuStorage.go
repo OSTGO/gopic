@@ -16,7 +16,7 @@ const (
 var qiniuConfig map[string]interface{}
 
 type QiniuStorage struct {
-	B *utils.BaseStorage
+	*utils.MetaStorage
 }
 
 func (g *QiniuStorage) Upload(im *utils.Image) (string, error) {
@@ -28,7 +28,7 @@ func (g *QiniuStorage) Upload(im *utils.Image) (string, error) {
 }
 
 func NewQiniuStorage() *QiniuStorage {
-	return &QiniuStorage{utils.NewBaseStorage()}
+	return &QiniuStorage{utils.NewMetaStorage()}
 }
 
 func uploadPictureToQiniu(accessKey, secretKey, bucket string, data []byte, suffix string) error {

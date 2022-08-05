@@ -31,6 +31,6 @@ func init() {
 	uploadCmd.Flags().StringSliceVarP(&path, "path", "p", nil, "")
 	uploadCmd.Flags().BoolVarP(&allStorage, "all", "a", false, "")
 	uploadCmd.Flags().StringSliceVarP(&storageList, "storage", "s", nil, "")
-	uploadCmd.Flags().StringVarP(&outFormat, "out", "o", "", "")
+	uploadCmd.Flags().StringVarP(&outFormat, "format", "f", "", "")
 	uploadCmd.MarkFlagRequired("path")
 }

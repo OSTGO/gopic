@@ -10,7 +10,7 @@ import (
 )
 
 type GithubStorage struct {
-	B *utils.BaseStorage
+	*utils.MetaStorage
 }
 
 const (
@@ -27,7 +27,7 @@ func (g *GithubStorage) Upload(im *utils.Image) (string, error) {
 }
 
 func NewGithubStorage() *GithubStorage {
-	return &GithubStorage{utils.NewBaseStorage()}
+	return &GithubStorage{utils.NewMetaStorage()}
 }
 
 func uploadPictureToGithub(requestURL, token, data, suffix string) error {

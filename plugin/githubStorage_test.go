@@ -5,5 +5,4 @@ import (
 )
 
 func TestGitHubStorage_Upload(t *testing.T) {
-
 }

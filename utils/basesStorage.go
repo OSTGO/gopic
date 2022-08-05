@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/md5"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -21,6 +22,7 @@ const (
 
 type BaseStorage struct {
 	ImageList []*Image
+	token     string
 }
 
 type Image struct {
@@ -35,14 +37,27 @@ type Image struct {
 	md5        [md5.Size]byte
 }
 
-var b *BaseStorage
-var once sync.Once
+var bMap map[string]*BaseStorage
 
-func NewBaseStorage() *BaseStorage {
-	once.Do(func() {
-		b = &BaseStorage{}
-	})
+func NewBaseStorage(paths []string) *BaseStorage {
+	token, err := json.Marshal(paths)
+	if err != nil {
+		panic(err)
+	}
+	var b *BaseStorage
+	var ok bool
+	if b, ok = bMap[string(token)]; !ok {
+		b = &BaseStorage{token: string(token)}
+	}
+	err = b.Generate(paths)
+	if err != nil {
+		panic(err)
+	}
 	return b
+}
+
+func (b *BaseStorage) Destory() {
+	delete(bMap, b.token)
 }
 
 func (b *Image) setPath(imagePath string) (err error) {
