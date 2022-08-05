@@ -87,7 +87,7 @@ import (
 )
 //定义插件类
 type GithubStorage struct {
-	B *utils.BaseStorage
+   *utils.MetaStorage
 }
 //定义插件名
 const (
@@ -106,7 +106,7 @@ func (g *GithubStorage) Upload(im *utils.Image) (string, error) {
 
 //实现插件实例构造函数
 func NewGithubStorage() *GithubStorage {
-	return &GithubStorage{utils.NewBaseStorage()}
+    return &GithubStorage{utils.NewMetaStorage()}
 }
 
 //upload具体的实现，用来上传单个图片
@@ -160,6 +160,7 @@ func githubHelp() string {
 ### 全并行
 
 不同图片之间以及不同插件之间全部并行
+单例模式：相同图片只会处理一次，节省内存及时间消耗，对大目录来说能快速转换！
 
 `使用一个插件传输一张图片`的时间T11与`使用n个插件传输n张图片`的时间Tnn, 在算力满足的条件下，Tnn远远小于`T11*n`,更远远小于`T11*n*n`
 
