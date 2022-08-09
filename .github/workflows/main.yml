@@ -28,7 +28,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{steps.version.outputs.value}}
+        tag_name: latest${{steps.version.outputs.value}}
         files: |
           pkg/gopic-linux-amd64
           pkg/gopic-linux-arm64
