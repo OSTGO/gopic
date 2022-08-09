@@ -19,6 +19,9 @@ jobs:
     - name: install upx
       run: sudo apt install upx -y
 
+    - name: tidy
+      run: go mod tidy
+
     - name: build elf
       run: mkdir pkg;cd builders;./build-all.sh
 
