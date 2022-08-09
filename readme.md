@@ -1,13 +1,16 @@
-# 简介
+# :tada:简介
 
 gopic 是一个图床工具，用来上传到七牛云或者github 等，使用简单，容易开发插件，全并发，充分解耦
 
-# 使用
+# :zap:使用
 
-## 下载
+## :package:下载
 x86-64 linux版本： [gopic-linux-amd64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-linux-amd64)
+
 arm-64 linux版本: [gopic-linux-arm64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-linux-arm64)
+
 x86-64 mac版本：[gopic-mac-amd64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-mac-amd64)
+
 x86-64 windows版本：[gopic.exe](https://github.com/OSTGO/gopic/releases/download/latest/gopic.exe)
 
 下载后可直接运行，注意!请通过命令行运行！
@@ -59,7 +62,7 @@ https://pic.longtao.fun/pics/22/254555454555441902154101556543454354543545_img.p
 
 ![image-20220805150255551](https://pic.longtao.fun/pics/22/17699932065516729233109210501292428820286_image-20220805150255551.png)
 
-## 结合Typora使用
+## :seedling:结合Typora使用
 
 1.
 进入`文件->偏好设置`![image-20220720161734836](https://pic.longtao.fun/pics/22/11820711612046216230142202241441926412985_image-20220720161734836.png)
@@ -68,7 +71,7 @@ https://pic.longtao.fun/pics/22/254555454555441902154101556543454354543545_img.p
 
 3. 使用验证图片上传成功后，即可开心的任意粘贴图片，文章中图片会自动保存到激活插件的存储中，本说明的图片就使用gopic自动上出处理
 
-# 开发
+# :heavy_plus_sign:开发
 
 ## 添加插件
 
@@ -163,7 +166,7 @@ func githubHelp() string {
 }
 ```
 
-## 基本框架
+## :bulb:基本框架
 
 ### 全并行
 
