@@ -19,6 +19,7 @@ import (
 const (
 	netPath = iota
 	localPath
+	base64Data
 )
 
 type BaseStorage struct {
@@ -68,9 +69,24 @@ func (b *Image) setPath(imagePath string) (err error) {
 			err = errors.New(fmt.Sprintf("%v", e))
 		}
 	}()
+	if len(imagePath) > 5 && imagePath[:5] == "data:" {
+		pathRaw := strings.Split(imagePath, "base64,")
+		if len(pathRaw) < 1 {
+			panic(errors.New("unknown data type"))
+		}
+		b.PathType = base64Data
+		b.InName = "base64"
+		b.Path = pathRaw[1]
+		return nil
+	}
 	b.Path = imagePath
 	_, picName := path.Split(imagePath)
-	b.InName = strings.Split(picName, ".")[0]
+	picNameSplit := strings.Split(picName, "_gopic_")
+	if len(picNameSplit) >= 2 {
+		b.InName = strings.Split(picNameSplit[len(picNameSplit)-1], ".")[0]
+	} else {
+		b.InName = strings.Split(picName, ".")[0]
+	}
 	_, err = os.Stat(imagePath)
 	if os.IsNotExist(err) {
 		b.PathType = netPath
@@ -92,6 +108,8 @@ func (b *Image) processData() (err error) {
 		byteArrayData, err = netPictureData(b.Path)
 	case localPath:
 		byteArrayData, err = localPictureData(b.Path)
+	case base64Data:
+		byteArrayData, err = base64PictureData(b.Path)
 	default:
 		panic("Image type error!")
 	}
@@ -168,4 +186,9 @@ func localPictureData(localPath string) ([]byte, error) {
 		return nil, err
 	}
 	return originData, nil
+}
+
+func base64PictureData(localPath string) ([]byte, error) {
+	originData, err := base64.StdEncoding.DecodeString(localPath)
+	return originData, err
 }

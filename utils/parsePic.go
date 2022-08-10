@@ -43,7 +43,10 @@ func CheckImageType(b []byte) string {
 	if checkType(b, []byte{'R', 'I', 'F', 'F'}) {
 		return "ani"
 	}
-	return ""
+	if checkType(b, []byte("<!DOCTYPE svg")) {
+		return "svg"
+	}
+	return "unknown"
 }
 
 func checkType(image, types []byte) bool {
