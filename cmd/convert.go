@@ -19,7 +19,7 @@ var convertCmd = &cobra.Command{
 	Short: "convert pics",
 	Long:  `convert pics`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := cmdIementaion.CmdConvert(covertPath, outDir, outFormat, allStorage, recurse, storageList)
+		err := cmdIementaion.CmdConvert(covertPath, outDir, outFormat, allStorage, nameReserve, recurse, storageList)
 		if err != nil {
 			panic(err)
 		}
@@ -35,5 +35,6 @@ func init() {
 	convertCmd.Flags().StringSliceVarP(&storageList, "storage", "s", nil, "")
 	convertCmd.Flags().StringVarP(&outFormat, "format", "f", "", "")
 	convertCmd.Flags().StringVarP(&outDir, "dir", "d", "", "")
+	convertCmd.Flags().BoolVarP(&nameReserve, "name", "n", false, "")
 	convertCmd.MarkFlagRequired("dir")
 }

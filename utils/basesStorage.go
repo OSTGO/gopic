@@ -11,6 +11,7 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -27,6 +28,7 @@ type BaseStorage struct {
 
 type Image struct {
 	Path       string
+	ImageType  string
 	PathType   uint
 	OutBytes   []byte
 	OutBase64  string
@@ -39,7 +41,7 @@ type Image struct {
 
 var bMap map[string]*BaseStorage
 
-func NewBaseStorage(paths []string) *BaseStorage {
+func NewBaseStorage(paths []string, nameReserve bool) *BaseStorage {
 	token, err := json.Marshal(paths)
 	if err != nil {
 		panic(err)
@@ -49,7 +51,7 @@ func NewBaseStorage(paths []string) *BaseStorage {
 	if b, ok = bMap[string(token)]; !ok {
 		b = &BaseStorage{token: string(token)}
 	}
-	err = b.Generate(paths)
+	err = b.Generate(paths, nameReserve)
 	if err != nil {
 		panic(err)
 	}
@@ -68,7 +70,7 @@ func (b *Image) setPath(imagePath string) (err error) {
 	}()
 	b.Path = imagePath
 	_, picName := path.Split(imagePath)
-	b.InName = picName
+	b.InName = strings.Split(picName, ".")[0]
 	_, err = os.Stat(imagePath)
 	if os.IsNotExist(err) {
 		b.PathType = netPath
@@ -94,11 +96,12 @@ func (b *Image) processData() (err error) {
 		panic("Image type error!")
 	}
 	b.OutBytes = byteArrayData
+	b.ImageType = CheckImageType(byteArrayData)
 	b.OutBase64 = base64.StdEncoding.EncodeToString(byteArrayData)
 	return nil
 }
 
-func (b *Image) setOthers() (err error) {
+func (b *Image) setOthers(nameReserve bool) (err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = errors.New(fmt.Sprintf("%v", e))
@@ -106,12 +109,16 @@ func (b *Image) setOthers() (err error) {
 	}()
 	b.FolderName = getCurrentYear()
 	b.md5 = md5.Sum(b.OutBytes)
-	b.OutName = bytesRaw2String(b.md5[:]) + "_" + b.InName
+	if nameReserve {
+		b.OutName = bytesRaw2String(b.md5[:]) + "_gopic_" + b.InName + "." + b.ImageType
+	} else {
+		b.OutName = bytesRaw2String(b.md5[:]) + "_gopic_" + "." + b.ImageType
+	}
 	b.OutSuffix = path.Join(b.FolderName, b.OutName)
 	return nil
 }
 
-func (b *BaseStorage) Generate(paths []string) error {
+func (b *BaseStorage) Generate(paths []string, nameReserve bool) error {
 	flag := 0
 	var wg sync.WaitGroup
 	for k, pa := range paths {
@@ -120,7 +127,7 @@ func (b *BaseStorage) Generate(paths []string) error {
 			i := &Image{}
 			i.setPath(path)
 			i.processData()
-			i.setOthers()
+			i.setOthers(nameReserve)
 			if index == flag {
 				b.ImageList = append(b.ImageList, i)
 			}

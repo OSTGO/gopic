@@ -6,7 +6,7 @@ var StroageHelp = make(map[string]string, 0)
 
 type Upload interface {
 	Upload(image *Image) (string, error)
-	SetPicList([]string)
+	SetPicList([]string, bool)
 }
 
 func GetStringUploadMapKey(m map[string]Upload) []string {

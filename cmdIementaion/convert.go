@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func CmdConvert(covertPath, outDir, outFormat string, allStorage, recurse bool, storageList []string) error {
+func CmdConvert(covertPath, outDir, outFormat string, allStorage, nameReserve, recurse bool, storageList []string) error {
 	if covertPath == "" {
 		covertPath = "./"
 	}
@@ -27,12 +27,12 @@ func CmdConvert(covertPath, outDir, outFormat string, allStorage, recurse bool, 
 	if outFormat == "" {
 		outFormat = storageList[0]
 	}
-	err := convert(covertPath, outDir, outFormat, storageList)
+	err := convert(covertPath, outDir, outFormat, storageList, nameReserve)
 	return err
 }
 
 //对单个文件转换
-func convertFile(filePath, outPath, outFormat string, stotageList []string) error {
+func convertFile(filePath, outPath, outFormat string, stotageList []string, nameReserve bool) error {
 	fmt.Println("sourcePath:", filePath, " -> ", "targetPath:", outPath)
 	fd, err := os.Open(filePath)
 	if err != nil {
@@ -43,7 +43,7 @@ func convertFile(filePath, outPath, outFormat string, stotageList []string) erro
 	if err != nil {
 		panic(err)
 	}
-	outByteData, err := convertByteData(rawByteData, stotageList, outFormat)
+	outByteData, err := convertByteData(rawByteData, stotageList, outFormat, nameReserve)
 	if err != nil {
 		return err
 	}
@@ -56,17 +56,17 @@ func convertFile(filePath, outPath, outFormat string, stotageList []string) erro
 }
 
 //对字节数组转换
-func convertByteData(rawByteData []byte, stotageList []string, outFormat string) ([]byte, error) {
-	outStringData, err := convertStringData(string(rawByteData), stotageList, outFormat)
+func convertByteData(rawByteData []byte, stotageList []string, outFormat string, nameReserve bool) ([]byte, error) {
+	outStringData, err := convertStringData(string(rawByteData), stotageList, outFormat, nameReserve)
 	return []byte(outStringData), err
 }
 
-func convertStringData(rawData string, stotageList []string, outFormat string) (string, error) {
+func convertStringData(rawData string, stotageList []string, outFormat string, nameReserve bool) (string, error) {
 	picList, err := findPicList(rawData)
 	if err != nil {
 		return "", err
 	}
-	picList, err = uploadPicList(picList, stotageList, outFormat)
+	picList, err = uploadPicList(picList, stotageList, outFormat, nameReserve)
 	out, err := replaceData(rawData, picList)
 	return out, err
 }
@@ -82,7 +82,7 @@ func findPicList(rawData string) ([][]string, error) {
 }
 
 //上传文件列表
-func uploadPicList(picList [][]string, stotageList []string, outFormat string) ([][]string, error) {
+func uploadPicList(picList [][]string, stotageList []string, outFormat string, nameReserve bool) ([][]string, error) {
 	picList1D := make([]string, 0, len(picList))
 	for i, v := range picList {
 		kk := append(strings.Split(v[0], "("))
@@ -90,7 +90,7 @@ func uploadPicList(picList [][]string, stotageList []string, outFormat string) (
 		picList1D = append(picList1D, strings.TrimSuffix(kk[1], ")"))
 	}
 	// outList1D := realUploadPicList(picList1D)
-	outMap, errMap := NewUpload(stotageList, picList1D)
+	outMap, errMap := NewUpload(stotageList, picList1D, nameReserve)
 	if len(errMap) != 0 {
 		for k, v := range errMap {
 			fmt.Printf("%v:%v\n", k, v)
@@ -110,21 +110,21 @@ func replaceData(rawData string, picList [][]string) (string, error) {
 	return rawData, nil
 }
 
-func convert(inPath, outPath, outFormat string, stotageList []string) error {
+func convert(inPath, outPath, outFormat string, stotageList []string, nameReserve bool) error {
 	s, err := os.Stat(inPath)
 	if err != nil {
 		return err
 	}
 	if s.IsDir() {
-		err = convertDir(inPath, outPath, outFormat, stotageList)
+		err = convertDir(inPath, outPath, outFormat, stotageList, nameReserve)
 
 	} else {
-		err = convertFile(inPath, outPath, outFormat, stotageList)
+		err = convertFile(inPath, outPath, outFormat, stotageList, nameReserve)
 	}
 	return err
 }
 
-func convertDir(dirPath, outPath, outFormat string, stotageList []string) error {
+func convertDir(dirPath, outPath, outFormat string, stotageList []string, nameReserve bool) error {
 	//dirPath2outPath := filepath.Rel()
 	err := filepath.Walk(dirPath,
 		func(path string, info os.FileInfo, err error) error {
@@ -140,7 +140,7 @@ func convertDir(dirPath, outPath, outFormat string, stotageList []string) error 
 				}
 				return nil
 			}
-			err = convertFile(path, outP, outFormat, stotageList)
+			err = convertFile(path, outP, outFormat, stotageList, nameReserve)
 			if err != nil {
 				return err
 			}

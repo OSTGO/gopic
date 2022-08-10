@@ -7,18 +7,23 @@ import (
 )
 import _ "gopic/plugin"
 
-func CmdUpload(pathList, storageList, args []string, allStorage bool, outFormat string) string {
-	if pathList == nil {
+func CmdUpload(storageList, args []string, allStorage, nameReserve bool, path, outFormat string) string {
+	if path == "" && args == nil {
 		return "path is nil"
 	}
-	pathList = append(pathList, args...)
+	pathList := make([]string, 0, 0)
+	if args != nil {
+		pathList = append(args, path)
+	} else {
+		pathList = []string{path}
+	}
 	if allStorage {
 		storageList = utils.GetStringUploadMapKey(utils.StroageMap)
 	}
 	if storageList == nil {
 		return "not chose storage"
 	}
-	outMap, errMap := NewUpload(storageList, pathList)
+	outMap, errMap := NewUpload(storageList, pathList, nameReserve)
 	if len(errMap) != 0 {
 		for k, v := range errMap {
 			fmt.Printf("%v:%v\n", k, v)
@@ -37,16 +42,16 @@ func CmdUpload(pathList, storageList, args []string, allStorage bool, outFormat 
 
 var errLock sync.Mutex
 
-func NewUpload(stroages []string, paths []string) (map[string][]string, map[string][]error) {
+func NewUpload(stroages []string, paths []string, nameReserve bool) (map[string][]string, map[string][]error) {
 	errMapList := make(map[string][]error, 0)
 	outMapList := make(map[string][]string, len(stroages))
-	bb := utils.NewBaseStorage(paths)
+	bb := utils.NewBaseStorage(paths, nameReserve)
 	defer bb.Destory()
 	var wg sync.WaitGroup
 	for _, stroage := range stroages {
 		wg.Add(1)
 		go func(_stroage string, paths []string) {
-			out, err := stroageUpload(_stroage, paths)
+			out, err := stroageUpload(_stroage, paths, nameReserve)
 			if len(err) != 0 {
 				errLock.Lock()
 				errMapList[_stroage] = err
@@ -64,10 +69,10 @@ func NewUpload(stroages []string, paths []string) (map[string][]string, map[stri
 }
 
 // need performance optimization
-func stroageUpload(stroage string, paths []string) ([]string, []error) {
+func stroageUpload(stroage string, paths []string, nameReserve bool) ([]string, []error) {
 	st := utils.StroageMap[stroage]
-	base := utils.NewBaseStorage(paths)
-	st.SetPicList(paths)
+	base := utils.NewBaseStorage(paths, nameReserve)
+	st.SetPicList(paths, nameReserve)
 	var wg sync.WaitGroup
 	flag := 0
 	//flag := make([]chan bool, len(base.ImageList), len(base.ImageList))

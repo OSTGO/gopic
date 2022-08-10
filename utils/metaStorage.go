@@ -4,8 +4,8 @@ type MetaStorage struct {
 	B *BaseStorage
 }
 
-func (m *MetaStorage) SetPicList(paths []string) {
-	m.B = NewBaseStorage(paths)
+func (m *MetaStorage) SetPicList(paths []string, nameReserve bool) {
+	m.B = NewBaseStorage(paths, nameReserve)
 }
 
 func NewMetaStorage() *MetaStorage {
