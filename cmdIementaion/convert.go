@@ -87,7 +87,14 @@ func uploadPicList(picList [][]string, stotageList []string, outFormat string, n
 	for i, v := range picList {
 		kk := append(strings.Split(v[0], "("))
 		picList[i] = append(v, kk[0])
-		picList1D = append(picList1D, strings.TrimSuffix(kk[1], ")"))
+		kk1List := strings.Split(strings.TrimSuffix(kk[1], ")"), " ")
+		picPath := kk1List[0]
+		var title string
+		if len(kk1List) >= 2 {
+			title = fmt.Sprintf(strings.Join(kk1List[1:], " "))
+		}
+		picList1D = append(picList1D, picPath)
+		picList[i] = append(picList[i], title)
 	}
 	// outList1D := realUploadPicList(picList1D)
 	outMap, errMap := NewUpload(stotageList, picList1D, nameReserve)
@@ -98,7 +105,7 @@ func uploadPicList(picList [][]string, stotageList []string, outFormat string, n
 		return nil, errors.New("uploadPicList error")
 	}
 	for i, v := range outMap[outFormat] {
-		picList[i][1] = picList[i][1] + "(" + v + ")"
+		picList[i][1] = picList[i][1] + "(" + v + picList[i][2] + ")"
 	}
 	return picList, nil
 }

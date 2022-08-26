@@ -29,6 +29,7 @@ type BaseStorage struct {
 
 type Image struct {
 	Path       string
+	Title      string
 	ImageType  string
 	PathType   uint
 	OutBytes   []byte
@@ -63,12 +64,19 @@ func (b *BaseStorage) Destory() {
 	delete(bMap, b.token)
 }
 
-func (b *Image) setPath(imagePath string) (err error) {
+func (b *Image) setPath(rawImagePath string) (err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = errors.New(fmt.Sprintf("%v", e))
 		}
 	}()
+	// 处理标题，找到第一个空格split，[0]是imagePath、[1]strip("\"")是标题
+	rawImagePathList := strings.Split(rawImagePath, " ")
+	imagePath := rawImagePathList[0]
+	var title string
+	if len(rawImagePathList) >= 2 {
+		title = fmt.Sprintf(strings.Join(rawImagePathList[1:], " "))
+	}
 	if len(imagePath) > 5 && imagePath[:5] == "data:" {
 		pathRaw := strings.Split(imagePath, "base64,")
 		if len(pathRaw) < 1 {
@@ -79,6 +87,7 @@ func (b *Image) setPath(imagePath string) (err error) {
 		b.Path = pathRaw[1]
 		return nil
 	}
+	b.Title = title
 	b.Path = imagePath
 	_, picName := path.Split(imagePath)
 	picNameSplit := strings.Split(picName, "_gopic_")
