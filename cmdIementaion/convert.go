@@ -105,7 +105,7 @@ func uploadPicList(picList [][]string, stotageList []string, outFormat string, n
 		return nil, errors.New("uploadPicList error")
 	}
 	for i, v := range outMap[outFormat] {
-		picList[i][1] = picList[i][1] + "(" + v + picList[i][2] + ")"
+		picList[i][1] = picList[i][1] + "(" + v + " " + picList[i][2] + ")"
 	}
 	return picList, nil
 }
