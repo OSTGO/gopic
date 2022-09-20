@@ -1,0 +1,52 @@
+ninja_required_version = 1.10
+
+GOFLAGS = CGO_ENABLED=0
+LDFLAGS = -ldflags '-w -s'
+GCFLAGS = -gcflags '-l'
+WORKDIR = $$(pwd)
+OUTPUT = $WORKDIR/out
+RPMBUILDROOT = $WORKDIR/.rpm
+
+rule lint
+  command = go vet ./...
+  description = go vet
+
+build lintoutput: lint
+
+rule unit
+  command = go test -cover -v -short ./...
+  description = go test
+
+build utest: unit
+
+rule compile
+  command = go mod tidy && $GOFLAGS go build $LDFLAGS $GCFLAGS -a -o $OUTPUT/$out $in && upx -9 $OUTPUT/$out && echo "$out build done."
+  description = compile %in
+
+build gopic: compile .
+
+build gopic-linux-amd64: compile .
+  GOFLAGS = CGO_ENABLED=0 GOARCH=amd64 GOOS=linux
+
+build gopic-linux-arm64: compile .
+  GOFLAGS = CGO_ENABLED=0 GOARCH=arm64 GOOS=linux
+
+build gopic-mac-amd64: compile .
+  GOFLAGS = CGO_ENABLED=0 GOARCH=amd64 GOOS=darwin
+
+build gopic.exe: compile .
+  GOFLAGS = CGO_ENABLED=0 GOARCH=amd64 GOOS=windows
+
+rule rpm-build
+  command = rpmbuild --define "_topdir $RPMBUILDROOT" --target $TARGET -bb $WORKDIR/build/package/rpm/gopic.spec && mv $RPMBUILDROOT/RPMS/* $OUTPUT/ && rm -rf $RPMBUILDROOT
+  description = build rpm for gopic
+
+build rpm-amd64: rpm-build gopic-linux-amd64
+  TARGET = x86_64-linux
+
+build rpm-arm64: rpm-build gopic-linux-arm64
+  TARGET = armv8l-linux
+
+build all: phony gopic-linux-amd64 gopic-linux-arm64 gopic-mac-amd64 gopic.exe lintoutput
+
+default all

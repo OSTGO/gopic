@@ -25,7 +25,7 @@ func Test_uploadPicList(t *testing.T) {
 	picList[0] = []string{"![image-20220802162132491](https://pic.longtao.fun/pics/22/21692137714958140223586238239226443276_image-20220802162132491.png)"}
 	stotageList := []string{"samba"}
 	outFormat := "samba"
-	out, err := uploadPicList(picList, stotageList, outFormat)
+	out, err := uploadPicList(picList, stotageList, outFormat, false)
 	if err != nil {
 		panic(err)
 	}
@@ -33,7 +33,7 @@ func Test_uploadPicList(t *testing.T) {
 }
 
 func Test_convert(t *testing.T) {
-	err := convertFile("tem.md", "tem.md", "samba", []string{"samba"})
+	err := convertFile("tem.md", "tem.md", "samba", []string{"samba"}, false)
 	if err != nil {
 		panic(err)
 	}
@@ -44,7 +44,7 @@ func Test_convertDir(t *testing.T) {
 	//outPath, _ := filepath.Abs("/home/longtao/temp/blog")
 	inPath, _ := filepath.Abs("./tem.md")
 	outPath, _ := filepath.Abs("../tem2/tem.md")
-	err := convert(inPath, outPath, "samba", []string{"samba"})
+	err := convert(inPath, outPath, "samba", []string{"samba"}, false)
 	if err != nil {
 		panic(err)
 	}

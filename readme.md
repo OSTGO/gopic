@@ -4,7 +4,20 @@ gopic 是一个图床工具，用来上传到七牛云或者github 等，使用�
 
 # :zap:使用
 
-## :package:下载
+# 安装
+
+## :scroll:从源码安装
+
+```bash
+$ git clone https://github.com/OSTGO/gopic/commits/main
+$ cd gopic
+$ ninja gopic
+$ ls out/
+```
+
+二进制文件生成在 `out` 目录下。
+
+## :package:下载安装
 x86-64 linux版本： [gopic-linux-amd64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-linux-amd64)
 
 arm-64 linux版本: [gopic-linux-arm64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-linux-arm64)
