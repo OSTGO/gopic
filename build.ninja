@@ -47,6 +47,6 @@ build rpm-amd64: rpm-build gopic-linux-amd64
 build rpm-arm64: rpm-build gopic-linux-arm64
   TARGET = armv8l-linux
 
-build all: phony gopic-linux-amd64 gopic-linux-arm64 gopic-mac-amd64 gopic.exe lintoutput
+build all: phony gopic-linux-amd64 gopic-linux-arm64 gopic-mac-amd64 gopic.exe
 
 default all
