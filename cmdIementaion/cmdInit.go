@@ -1,10 +1,11 @@
 package cmdIementaion
 
 import (
-	"gopic/staic"
-	"gopic/utils"
 	"io/ioutil"
 	"path"
+
+	"github.com/OSTGO/gopic/staic"
+	"github.com/OSTGO/gopic/utils"
 )
 
 func CmdInit() (string, string) {

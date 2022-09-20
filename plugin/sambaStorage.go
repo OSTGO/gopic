@@ -1,12 +1,13 @@
 package plugin
 
 import (
-	"github.com/hirochachacha/go-smb2"
-	"gopic/conf"
-	"gopic/utils"
 	"net"
 	"os"
 	"path"
+
+	"github.com/OSTGO/gopic/conf"
+	"github.com/OSTGO/gopic/utils"
+	"github.com/hirochachacha/go-smb2"
 )
 
 type SambaStorage struct {

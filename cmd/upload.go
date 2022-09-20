@@ -6,8 +6,9 @@ package cmd
 
 import (
 	"fmt"
+
+	"github.com/OSTGO/gopic/cmdIementaion"
 	"github.com/spf13/cobra"
-	"gopic/cmdIementaion"
 )
 
 var path string

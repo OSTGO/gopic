@@ -1,4 +1,4 @@
-module gopic
+module github.com/OSTGO/gopic
 
 go 1.16
 

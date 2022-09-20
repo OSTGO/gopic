@@ -3,10 +3,11 @@ package plugin
 import (
 	"bytes"
 	"encoding/json"
-	"gopic/conf"
-	"gopic/utils"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/OSTGO/gopic/conf"
+	"github.com/OSTGO/gopic/utils"
 )
 
 type GithubStorage struct {

@@ -2,9 +2,10 @@ package cmdIementaion
 
 import (
 	"fmt"
-	"gopic/conf"
-	"gopic/utils"
 	"path"
+
+	"github.com/OSTGO/gopic/conf"
+	"github.com/OSTGO/gopic/utils"
 )
 
 func CmdConf() string {

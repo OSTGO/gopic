@@ -2,10 +2,12 @@ package cmdIementaion
 
 import (
 	"fmt"
-	"gopic/utils"
 	"sync"
+
+	"github.com/OSTGO/gopic/utils"
+
+	_ "github.com/OSTGO/gopic/plugin"
 )
-import _ "gopic/plugin"
 
 func CmdUpload(storageList, args []string, allStorage, nameReserve bool, path, outFormat string) string {
 	if path == "" && args == nil {

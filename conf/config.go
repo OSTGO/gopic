@@ -2,9 +2,10 @@ package conf
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
-	"gopic/utils"
 	"path"
+
+	"github.com/OSTGO/gopic/utils"
+	"github.com/spf13/viper"
 )
 
 var Viper viper.Viper

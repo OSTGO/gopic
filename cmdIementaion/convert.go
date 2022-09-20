@@ -3,12 +3,13 @@ package cmdIementaion
 import (
 	"errors"
 	"fmt"
-	"gopic/utils"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/OSTGO/gopic/utils"
 )
 
 func CmdConvert(covertPath, outDir, outFormat string, allStorage, nameReserve, recurse bool, storageList []string) error {

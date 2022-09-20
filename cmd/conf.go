@@ -6,8 +6,10 @@ package cmd
 
 import (
 	"fmt"
+
+	"github.com/OSTGO/gopic/cmdIementaion"
+
 	"github.com/spf13/cobra"
-	"gopic/cmdIementaion"
 )
 
 // confCmd represents the conf command
