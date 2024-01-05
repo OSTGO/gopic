@@ -20,5 +20,16 @@
     "share": "share",
     "dir": "dir/test",
     "address": "192.168.200.100:445"
+  },
+  "s3": {
+    "active": false,
+    "access_key": "your access key",
+    "secret_key": "your secret key",
+    "endpoint": "s3 service entrypoint",
+    "bucket": "s3 bucket name",
+    "disable_ssl": true,
+    "force_path_style": true,
+    "prefix": "",
+    "region": "us-en-1"
   }
 }
