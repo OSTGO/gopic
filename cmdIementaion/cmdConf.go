@@ -3,6 +3,7 @@ package cmdIementaion
 import (
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/OSTGO/gopic/conf"
 	"github.com/OSTGO/gopic/utils"
@@ -21,7 +22,11 @@ func showActivePluginList() string {
 }
 
 func showEveryPluginHelp() string {
-	return fmt.Sprintln(utils.StroageHelp)
+	strList := make([]string, 0)
+	for _, v := range utils.StroageHelp {
+		strList = append(strList, v)
+	}
+	return strings.Join(strList, "\n\n")
 }
 
 func showConfigAndPath() string {
