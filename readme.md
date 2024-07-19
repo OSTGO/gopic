@@ -38,15 +38,15 @@ x86-64 windows版本：[gopic.exe](https://github.com/OSTGO/gopic/releases/downl
 | upload    | 图床主命令，下表有详细参数介绍           |
 | convert   | 图片转换命令                             |
 
-| gopic upload 参数 | 说明                             | 默认值                             |
-|------------|--------------------------------| ---------------------------------- |
-| -a，--all   | bool类型，若为true,将上传到配置中激活的所有存储插件中 | false，若为false，-s内容为空会报错 |
-| -n, --name | bool类型，若为true,将不会屏蔽文件名         | false |
-| -f, --format | string类型，选用哪一个存储插件作为返回值        | 默认为第一个存储                   |
-| -s, --storage | string列表，选择要上传到哪些存储插件中，用`,`分割  | 默认为空，若为空，-a未配置会报错   |
-| -p, --path | string列表，图片可以是本地地址，也可以是网络地址    |                             |
+| gopic upload 参数 | 说明                             | 默认值                            |
+|------------|--------------------------------|--------------------------------|
+| -a，--all   | bool类型，若为true,将上传到配置中激活的所有存储插件中 | false，若为false，-s内容为空时自动设置为true |
+| -n, --name | bool类型，若为true,将不会屏蔽文件名         | false                          |
+| -f, --format | string类型，选用哪一个存储插件作为返回值        | 默认为第一个存储                       |
+| -s, --storage | string列表，选择要上传到哪些存储插件中，用`,`分割  | 默认为空，若为空，-a未配置自动配置为true        |
+| -p, --path | string列表，图片可以是本地地址，也可以是网络地址    |                                |
 
-例如`gopic upload -a -p ./1.gif ./2.png https://baidu.com/img.png -o qiniu`
+例如`gopic upload -a -p ./1.gif ./2.png https://pic.longtao.fun/pics/20210916/avatar.71pjc2scvak0.jpg -f qiniu`
 
 代表上传` ./1.gif ./2.png https://baidu.com/img.png `三个图片到所有已经激活的插件，并使用`qiniu`插件的返回值
 

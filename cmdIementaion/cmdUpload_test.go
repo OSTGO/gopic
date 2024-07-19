@@ -6,12 +6,12 @@ import (
 )
 
 func TestCmdUpload(t *testing.T) {
-	path := "../1.png"
+	path := " https://pic.longtao.fun/pics/20210916/avatar.71pjc2scvak0.jpg "
 	storageList := []string{"qiniu", "github"}
-	args := []string{"../2.png"}
-	allStorage := false
+	args := []string{""}
+	allStorage := true
 	outFormat := "qiniu"
 	outs := CmdUpload(storageList, args, allStorage, false, path, outFormat)
-	fmt.Println(outs)
+	fmt.Println("outs:", outs)
 	fmt.Println("end")
 }

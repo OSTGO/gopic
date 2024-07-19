@@ -23,3 +23,32 @@ func GetHomeDir() string {
 	})
 	return homeDir
 }
+
+func StrimList(l []string) []string {
+	if l == nil || len(l) == 0 {
+		return l
+	}
+	pointer := 0
+	for _, v := range l {
+		if v != "" {
+			l[pointer] = v
+			pointer++
+		}
+	}
+	l = l[:pointer]
+	return l
+}
+
+func DeleteAfterLastCharacter(s string, character string) string {
+	if s == "" || len(s) == 0 || len(character) == 0 {
+		return s
+	}
+	c := character[0]
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] == c {
+			s = s[:i]
+			return s
+		}
+	}
+	return s
+}

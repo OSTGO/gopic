@@ -8,4 +8,5 @@ require (
 	github.com/qiniu/go-sdk/v7 v7.13.0
 	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.12.0
+	golang.org/x/sys v0.13.0
 )

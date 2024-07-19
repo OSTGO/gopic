@@ -8,18 +8,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"path"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
-)
-
-const (
-	netPath = iota
-	localPath
-	base64Data
 )
 
 type BaseStorage struct {
@@ -72,6 +65,7 @@ func (b *Image) setPath(rawImagePath string) (err error) {
 	}()
 	// 处理标题，找到第一个空格split，[0]是imagePath、[1]strip("\"")是标题
 	rawImagePathList := strings.Split(rawImagePath, " ")
+	rawImagePathList = StrimList(rawImagePathList)
 	imagePath := rawImagePathList[0]
 	var title string
 	if len(rawImagePathList) >= 2 {
@@ -94,14 +88,10 @@ func (b *Image) setPath(rawImagePath string) (err error) {
 	if len(picNameSplit) >= 2 {
 		b.InName = strings.Split(picNameSplit[len(picNameSplit)-1], ".")[0]
 	} else {
-		b.InName = strings.Split(picName, ".")[0]
+		b.InName = DeleteAfterLastCharacter(picName, ".")
 	}
-	_, err = os.Stat(imagePath)
-	if os.IsNotExist(err) {
-		b.PathType = netPath
-	} else {
-		b.PathType = localPath
-	}
+
+	b.PathType = CheckPath(imagePath)
 	return nil
 }
 
@@ -166,7 +156,7 @@ func (b *BaseStorage) Generate(paths []string, nameReserve bool) error {
 	return nil
 }
 
-//2019->19;2020->20
+// 2019->19;2020->20
 func getCurrentYear() string {
 	return strconv.Itoa(time.Now().Year() - 2000)
 }

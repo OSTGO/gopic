@@ -13,19 +13,16 @@ func CmdUpload(storageList, args []string, allStorage, nameReserve bool, path, o
 	if path == "" && args == nil {
 		return "path is nil"
 	}
-	pathList := make([]string, 0, 0)
+	pathList := make([]string, 0, len(args)+1)
 	if args != nil {
 		pathList = append(args, path)
 	} else {
 		pathList = []string{path}
 	}
-	if allStorage {
+	if allStorage || storageList == nil {
 		storageList = utils.GetStringUploadMapKey(utils.StroageMap)
 	}
-	if storageList == nil {
-		return "not chose storage"
-	}
-	outMap, errMap := NewUpload(storageList, pathList, nameReserve)
+	outMap, errMap := NewUpload(storageList, utils.StrimList(pathList), nameReserve)
 	if len(errMap) != 0 {
 		for k, v := range errMap {
 			fmt.Printf("%v:%v\n", k, v)
