@@ -18,13 +18,13 @@ $ ls out/
 二进制文件生成在 `out` 目录下。
 
 ## :package:下载安装
-x86-64 linux版本： [gopic-linux-amd64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-linux-amd64)
+x86-64 linux版本： [gopic-linux-amd64](https://github.com/OSTGO/gopic/releases)
 
-arm-64 linux版本: [gopic-linux-arm64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-linux-arm64)
+arm-64 linux版本: [gopic-linux-arm64](https://github.com/OSTGO/gopic/releases)
 
-x86-64 mac版本：[gopic-mac-amd64](https://github.com/OSTGO/gopic/releases/download/latest/gopic-mac-amd64)
+x86-64 mac版本：[gopic-mac-amd64](https://github.com/OSTGO/gopic/releases)
 
-x86-64 windows版本：[gopic.exe](https://github.com/OSTGO/gopic/releases/download/latest/gopic.exe)
+x86-64 windows版本：[gopic.exe](https://github.com/OSTGO/gopic/releases)
 
 下载后可直接运行，注意!请通过命令行运行！
 
